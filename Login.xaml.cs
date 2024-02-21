@@ -22,7 +22,9 @@ namespace Semaforo
             {
                 if (username.Equals("Araneda") && password.Equals("uMTf$qINx24H"))
                 {
-                    User user = new User(username, password);
+                    LoadExcel loadExcel = new LoadExcel();
+                    loadExcel.Show();
+                    Close();
                 }
                 else
                 {

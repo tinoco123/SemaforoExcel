@@ -1,0 +1,30 @@
+﻿<Window x:Class="Semaforo.LoadExcel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Semaforo"
+        mc:Ignorable="d"
+        Title="Cargar Excel" WindowState="Maximized" 
+        d:DesignHeight="768" d:DesignWidth="1368" Icon="semaforo-icon.png">
+    <Grid>
+        <Grid VerticalAlignment="Top" Background="#153e74" Height="55">
+            <WrapPanel HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0">
+                <Image Source="user-circle-solid-72.png" Height="48" Margin="0 0 10 0"></Image>
+                <Label Name="UserName" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0 0 10 0">Araneda</Label>
+                <Button ToolTip="Cerrar sesión" Margin="0 0 10 0" Width="50" Background="#153e74" BorderThickness="0 0 0 0" Click="LogoutBtn_Click" Name="LogoutBtn" Cursor="Hand">
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="logout.png" Margin="5 0 0 0"></Image>
+                    </WrapPanel>
+                </Button>
+            </WrapPanel>
+        </Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Source="excel.png" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+            <TextBlock x:Name="StatusTB" FontSize="60" FontWeight="Bold" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">Seleccionar archivo excel</TextBlock>
+            <TextBlock FontSize="24" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">Mediante el excel seleccionado se obtendrán los datos necesarios para mostrar el semáforo.</TextBlock>
+            <Button VerticalContentAlignment="Center"  FontWeight="Bold" Background="#FF133E74" Foreground="White" Margin="0 30 0 0" Name="selectExcel" Click="selectExcel_Click" ToolTip="Seleccionar archivo excel" Cursor="Hand" Width="150" Height="45" FontSize="20">Cargar excel</Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>
