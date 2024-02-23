@@ -22,7 +22,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image Source="excel.png" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
             <TextBlock x:Name="StatusTB" FontSize="60" FontWeight="Bold" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">Seleccionar archivo excel</TextBlock>
-            <TextBlock FontSize="24" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">Mediante el excel seleccionado se obtendrán los datos necesarios para mostrar el semáforo.</TextBlock>
+            <TextBlock x:Name="CaptionTB" FontSize="24" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">Mediante el excel seleccionado se obtendrán los datos necesarios para mostrar el semáforo.</TextBlock>
             <Button VerticalContentAlignment="Center"  FontWeight="Bold" Background="#FF133E74" Foreground="White" Margin="0 30 0 0" Name="selectExcel" Click="selectExcel_Click" ToolTip="Seleccionar archivo excel" Cursor="Hand" Width="150" Height="45" FontSize="20">Cargar excel</Button>
         </StackPanel>
         
