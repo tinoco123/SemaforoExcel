@@ -4,6 +4,7 @@ using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -41,6 +42,18 @@ namespace Semaforo
                     StatusTB.Text = "Procesando excel";
                     CaptionTB.Text = "Espera solo unos segundos";
                     List<Item> itemsCollection = await GetItemsFromExcel(openFileDialog.FileName);
+                    if (itemsCollection != null)
+                    {
+                        MainWindow mainWindow = new MainWindow(itemsCollection);
+                        mainWindow.Show();
+                        Close();
+                    }
+                    else
+                    {
+                        selectExcel.IsEnabled = true;
+                        StatusTB.Text = "Seleccionar archivo excel";
+                        CaptionTB.Text = "Mediante el excel seleccionado se obtendrán los datos necesarios para mostrar el semáforo.";
+                    }
                 }
             }
             catch (UnauthorizedAccessException)
@@ -101,14 +114,24 @@ namespace Semaforo
                         else
                         {
                             string fullItem = String.IsNullOrEmpty(subitem) ? preItem : preItem + " " + subitem;
-                            DateTime expirationDate = excelFile.GetCellValueAsDateTime(rowIndex, 9);
-                            int daysUntilExpirationDate = excelFile.GetCellValueAsInt32(rowIndex, 11);
                             double value = excelFile.GetCellValueAsDouble(rowIndex, 13);
                             double quantity = excelFile.GetCellValueAsDouble(rowIndex, 15);
-                            Item newItem = new Item(fullItem, lotNumber, expirationDate, daysUntilExpirationDate, value, quantity);
+                            int daysUntilExpirationDate = excelFile.GetCellValueAsInt32(rowIndex, 11);
+                            DateTime expirationDate = excelFile.GetCellValueAsDateTime(rowIndex, 9);
+                            Item newItem = null;
+                            if (expirationDate.Year == 1900)
+                            {
+                                string expirationDateView = lotNumber.Contains("SC") ? "Sin Caducidad" : "No definido";
+                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDateView, daysUntilExpirationDate, value, quantity);
+                            }
+                            else
+                            {
+                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDate.ToShortDateString(), daysUntilExpirationDate, value, quantity);
+                            }
                             itemsCollection.Add(newItem);
                         }
                     }
+                    excelFile.CloseWithoutSaving();
                     return itemsCollection;
                 }
                 catch (IOException)
