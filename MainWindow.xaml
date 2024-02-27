@@ -16,7 +16,7 @@
             <RowDefinition Height="70" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="400" />
+            <RowDefinition Height="500" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
@@ -41,7 +41,7 @@
         <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 20 0 20">
             <WrapPanel>
                 <Label Foreground="#FF153E74" FontSize="18" FontWeight="SemiBold" Margin="3">Producto</Label>
-                <ComboBox Name="itemsComboBox" Width="150" Height="25" DisplayMemberPath="ItemName" SelectedValuePath="Id"></ComboBox>
+                <ComboBox Name="itemsComboBox" Width="150" Height="25"></ComboBox>
 
                 <Label Foreground="#FF153E74" FontSize="18" FontWeight="SemiBold" Margin="3">Color</Label>
                 <ComboBox Name="colorsComboBox" Width="150" Height="25"></ComboBox>
@@ -62,7 +62,7 @@
         </Grid>
 
         <Grid Grid.Row="2" Margin="30 0 0 0">
-            <TextBlock HorizontalAlignment="Left" Margin="40 0 0 0" Foreground="#FF153E74" FontWeight="Bold" FontSize="15">Buscar por código, descripción o número de lote</TextBlock>
+            <TextBlock HorizontalAlignment="Left" Margin="40 0 0 0" Foreground="#FF153E74" FontWeight="Bold" FontSize="15">Buscar por producto o número de lote</TextBlock>
             <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 20 0 0">
                 <Image Source="lupa.png" Margin="0 0 10 0" Width="30"></Image>
                 <TextBox Width="600" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Name="searchTextBox" TextChanged="searchTextBox_TextChanged"/>
