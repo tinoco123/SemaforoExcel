@@ -61,7 +61,7 @@ namespace Semaforo
             if (finalDate.SelectedDate != null)
             {
                 DateTime finalDateSelected = (DateTime)finalDate.SelectedDate;
-                filteredItems = filteredItems.Where(item => item.ExpirationDate <= finalDateSelected);
+                filteredItems = filteredItems.Where(item => item.ExpirationDate <= finalDateSelected && item.ExpirationDate.Year > 1900);
             }
             searchTextBox.Text = "";
             this.filteredItems = filteredItems.ToList();
