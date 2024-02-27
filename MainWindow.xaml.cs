@@ -80,28 +80,35 @@ namespace Semaforo
 
         private void ExportExcel_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            saveFile.Title = "Guardar archivo CSV";
-            saveFile.DefaultExt = "csv";
-            saveFile.Filter = "CSV (*.csv)|*.csv";
-            bool? result = saveFile.ShowDialog();
-            if (result == true)
+            if (filteredItems.Count >= 1)
             {
-                try
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                saveFile.Title = "Guardar archivo CSV";
+                saveFile.DefaultExt = "csv";
+                saveFile.Filter = "CSV (*.csv)|*.csv";
+                bool? result = saveFile.ShowDialog();
+                if (result == true)
                 {
-                    using (StreamWriter writer = new StreamWriter(saveFile.FileName, false, Encoding.GetEncoding("ISO-8859-1")))
-                    using (CsvWriter csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
+                    try
                     {
-                        csv.WriteRecords(filteredItems);
+                        using (StreamWriter writer = new StreamWriter(saveFile.FileName, false, Encoding.GetEncoding("ISO-8859-1")))
+                        using (CsvWriter csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
+                        {
+                            csv.WriteRecords(filteredItems);
+                        }
+                        MessageBox.Show("El archivo csv fue guardado exitosamente", "Operación exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    MessageBox.Show("El archivo csv fue guardado exitosamente", "Operación exitosa", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
+                }
+            }
+            else
+            {
+                MessageBox.Show("Sin contenido que exportar", "Operación incompleta", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
