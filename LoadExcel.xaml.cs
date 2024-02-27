@@ -4,7 +4,6 @@ using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -93,7 +92,7 @@ namespace Semaforo
                     {
                         string lotNumber = excelFile.GetCellValueAsString(rowIndex, 7);
                         if (String.IsNullOrEmpty(lotNumber)) // Check if lot number is empty
-                        {                           
+                        {
                             if (!String.IsNullOrEmpty(excelFile.GetCellValueAsString(rowIndex, 3))) // Check if preitem is not empty
                             {
                                 preItem = excelFile.GetCellValueAsString(rowIndex, 3);
@@ -126,11 +125,25 @@ namespace Semaforo
                             if (expirationDate.Year == 1900)
                             {
                                 string expirationDateView = lotNumber.Contains("SC") ? "Sin Caducidad" : "No Definido";
-                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDateView, daysUntilExpirationDate, value, quantity);
+                                string color = expirationDateView.Equals("Sin Caducidad") ? "Blanco" : "Morado";
+                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDateView, daysUntilExpirationDate, color, value, quantity);
                             }
                             else
                             {
-                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDate.ToShortDateString(), daysUntilExpirationDate, value, quantity);
+                                string color = string.Empty;
+                                if (daysUntilExpirationDate <= 30)
+                                {
+                                    color = "Rojo";
+                                }
+                                else if (daysUntilExpirationDate <= 90)
+                                {
+                                    color = "Tomate";
+                                }
+                                else
+                                {
+                                    color = "Verde";
+                                }
+                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDate.ToShortDateString(), daysUntilExpirationDate, color, value, quantity);
                             }
                             itemsCollection.Add(newItem);
                         }
