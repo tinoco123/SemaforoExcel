@@ -93,7 +93,7 @@ namespace Semaforo
                     {
                         string lotNumber = excelFile.GetCellValueAsString(rowIndex, 7);
                         if (String.IsNullOrEmpty(lotNumber)) // Check if lot number is empty
-                        {
+                        {                           
                             if (!String.IsNullOrEmpty(excelFile.GetCellValueAsString(rowIndex, 3))) // Check if preitem is not empty
                             {
                                 preItem = excelFile.GetCellValueAsString(rowIndex, 3);
@@ -102,13 +102,17 @@ namespace Semaforo
                                     preItem = string.Empty;
                                 }
                             }
-                            else // Get SubItem
+                            else if (!String.IsNullOrEmpty(excelFile.GetCellValueAsString(rowIndex, 4))) // Get SubItem
                             {
                                 subitem = excelFile.GetCellValueAsString(rowIndex, 4);
                                 if (subitem.StartsWith("Total"))
                                 {
                                     subitem = string.Empty;
                                 }
+                            }
+                            else
+                            {
+                                continue;
                             }
                         }
                         else
@@ -121,7 +125,7 @@ namespace Semaforo
                             Item newItem = null;
                             if (expirationDate.Year == 1900)
                             {
-                                string expirationDateView = lotNumber.Contains("SC") ? "Sin Caducidad" : "No definido";
+                                string expirationDateView = lotNumber.Contains("SC") ? "Sin Caducidad" : "No Definido";
                                 newItem = new Item(fullItem, lotNumber, expirationDate, expirationDateView, daysUntilExpirationDate, value, quantity);
                             }
                             else
