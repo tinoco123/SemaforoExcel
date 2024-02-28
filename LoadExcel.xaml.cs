@@ -111,40 +111,13 @@ namespace Semaforo
                             }
                             else
                             {
-                                continue;
+                                Item newItem = CreateItem(excelFile, preItem, subitem, lotNumber, rowIndex);
+                                itemsCollection.Add(newItem);
                             }
                         }
                         else
                         {
-                            string fullItem = String.IsNullOrEmpty(subitem) ? preItem : preItem + " " + subitem;
-                            double value = excelFile.GetCellValueAsDouble(rowIndex, 13);
-                            double quantity = excelFile.GetCellValueAsDouble(rowIndex, 15);
-                            int daysUntilExpirationDate = excelFile.GetCellValueAsInt32(rowIndex, 11);
-                            DateTime expirationDate = excelFile.GetCellValueAsDateTime(rowIndex, 9);
-                            Item newItem = null;
-                            if (expirationDate.Year == 1900)
-                            {
-                                string expirationDateView = lotNumber.Contains("SC") ? "Sin Caducidad" : "No Definido";
-                                string color = expirationDateView.Equals("Sin Caducidad") ? "Blanco" : "Morado";
-                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDateView, daysUntilExpirationDate, color, value, quantity);
-                            }
-                            else
-                            {
-                                string color = string.Empty;
-                                if (daysUntilExpirationDate <= 30)
-                                {
-                                    color = "Rojo";
-                                }
-                                else if (daysUntilExpirationDate <= 90)
-                                {
-                                    color = "Tomate";
-                                }
-                                else
-                                {
-                                    color = "Verde";
-                                }
-                                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDate.ToShortDateString(), daysUntilExpirationDate, color, value, quantity);
-                            }
+                            Item newItem = CreateItem(excelFile, preItem, subitem, lotNumber, rowIndex);
                             itemsCollection.Add(newItem);
                         }
                     }
@@ -162,6 +135,40 @@ namespace Semaforo
                 return null;
             });
 
+        }
+
+        private Item CreateItem(SLDocument excelFile, string preItem, string subitem, string lotNumber, int rowIndex)
+        {
+            string fullItem = string.IsNullOrEmpty(subitem) ? preItem : preItem + " " + subitem;
+            double value = excelFile.GetCellValueAsDouble(rowIndex, 13);
+            double quantity = excelFile.GetCellValueAsDouble(rowIndex, 15);
+            int daysUntilExpirationDate = excelFile.GetCellValueAsInt32(rowIndex, 11);
+            DateTime expirationDate = excelFile.GetCellValueAsDateTime(rowIndex, 9);
+            Item newItem;
+            if (expirationDate.Year == 1900)
+            {
+                string expirationDateView = lotNumber.Contains("SC") ? "Sin Caducidad" : "No Definido";
+                string color = expirationDateView.Equals("Sin Caducidad") ? "Blanco" : "Morado";
+                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDateView, daysUntilExpirationDate, color, value, quantity);
+            }
+            else
+            {
+                string color;
+                if (daysUntilExpirationDate <= 30)
+                {
+                    color = "Rojo";
+                }
+                else if (daysUntilExpirationDate <= 90)
+                {
+                    color = "Tomate";
+                }
+                else
+                {
+                    color = "Verde";
+                }
+                newItem = new Item(fullItem, lotNumber, expirationDate, expirationDate.ToShortDateString(), daysUntilExpirationDate, color, value, quantity);
+            }
+            return newItem;
         }
     }
 }
